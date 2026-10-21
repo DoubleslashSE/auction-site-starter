@@ -1,0 +1,65 @@
+/*
+ * Your house's look. Change these and the whole site follows: colours, type, corners. Keep text colours at a contrast
+ * of at least 4.5:1 against the backgrounds they sit on (WCAG AA); the defaults do.
+ */
+:root {
+  /* Type */
+  --font-body: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-body);
+
+  /* Surfaces and text */
+  --bg: #ffffff;
+  --bg-subtle: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #15181c;
+  --ink-soft: #3d4550;
+  --ink-muted: #5b6470;
+  --line: #e3e6ea;
+  --line-strong: #b8bfc7;
+  --photo-placeholder: #e6e8eb;
+
+  /* The one accent: the bid button, focus, the current page */
+  --accent: #c2410c;
+  --accent-hover: #9a3412;
+  --on-accent: #ffffff;
+
+  /* Status */
+  --good: #15803d;
+  --good-bg: #e8f5ec;
+  --good-ink: #14532d;
+  --bad: #b91c1c;
+  --bad-bg: #fdecec;
+  --bad-ink: #7f1d1d;
+  --notice-bg: #fff4e5;
+  --notice-line: #f3c58b;
+
+  /* Shape and rhythm */
+  --radius: 4px;
+  --page-width: 1280px;
+  --gutter: 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111316;
+    --bg-subtle: #181b1f;
+    --surface: #16191d;
+    --ink: #eef0f2;
+    --ink-soft: #c9ced4;
+    --ink-muted: #a3abb5;
+    --line: #2b3036;
+    --line-strong: #4a525c;
+    --photo-placeholder: #23272c;
+    --accent: #f97316;
+    --accent-hover: #fb923c;
+    --on-accent: #111316;
+    --good: #4ade80;
+    --good-bg: #13291b;
+    --good-ink: #bbf7d0;
+    --bad: #f87171;
+    --bad-bg: #2c1515;
+    --bad-ink: #fecaca;
+    --notice-bg: #2a2012;
+    --notice-line: #7c5a24;
+  }
+}
