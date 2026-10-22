@@ -1,11 +1,9 @@
 import { expect, test, type Browser } from "@playwright/test";
-import { BUYER, expectAccessible, signIn, SELLER, unique } from "./helpers";
+import { BUYER, expectAccessible, RIVAL, signIn, SELLER, unique } from "./helpers";
 
 // The whole buyer and seller journey on the site: list a lot with a photo, find it, watch it, bid with confirmation,
 // get outbid live, and the signed-out, sign-up and phone views. Runs against the fake API by default and against a real
 // house with E2E_TARGET=stack (playwright.config.ts).
-
-const RIVAL = process.env.E2E_RIVAL ?? "rival@example.com";
 
 // A 1×1 PNG.
 const PHOTO = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", "base64");
@@ -111,8 +109,11 @@ test("browsing by category and sorting keeps the choice in the address", async (
 
   await page.getByLabel("Sort by").selectOption("price-desc");
   await expect(page).toHaveURL(/sort=price-desc/);
-  await page.getByLabel("No bids yet").check();
+  // The filters live in the address: the box is checked once the address has it.
+  await page.getByLabel("No bids yet").click();
   await expect(page).toHaveURL(/noBids=true/);
+  await expect(page).toHaveURL(/sort=price-desc/);
+  await expect(page.getByLabel("No bids yet")).toBeChecked();
 });
 
 test("a visitor asks for an account and is told to check their email", async ({ page }) => {

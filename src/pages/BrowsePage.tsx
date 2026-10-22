@@ -79,15 +79,17 @@ export function BrowsePage() {
     setMore((m) => ({ ...m, items: m.items.map((l) => apply(l, event)) }));
   });
 
-  const set = (changes: Record<string, string | null>) => {
-    const next = new URLSearchParams(params);
-    for (const [name, value] of Object.entries(changes)) {
-      if (value === null || value === "") next.delete(name);
-      else next.set(name, value);
-    }
+  // From the latest address, so quick changes in a row all stick.
+  const set = (changes: Record<string, string | null>) =>
+    setParams((current) => {
+      const next = new URLSearchParams(current);
+      for (const [name, value] of Object.entries(changes)) {
+        if (value === null || value === "") next.delete(name);
+        else next.set(name, value);
+      }
 
-    setParams(next);
-  };
+      return next;
+    });
 
   const heading = q ? `Results for “${q}”` : (categories.find((c) => c.id === category)?.name ?? "All lots");
 
