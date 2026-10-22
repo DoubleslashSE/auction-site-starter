@@ -9,6 +9,8 @@ COPY . .
 RUN pnpm build
 
 FROM nginx:1.31-alpine@sha256:df221db836e1754089190208cee7eeda94f233197056426eda74a43ab1abeac2
+# Security fixes published after the base image was built.
+RUN apk upgrade --no-cache
 COPY --from=build /src/dist /srv/site
 COPY deploy/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh && rm -f /srv/site/config.js
