@@ -28,6 +28,13 @@ jobs:
       - run: pnpm e2e
         env:
           CI: "true"
+      - name: Container image builds and serves the site
+        run: |
+          docker build -t site .
+          docker run -d --name site -p 127.0.0.1:8088:80 -e SITE_AUTHORITY=https://id.example.com/realms/acme -e SITE_API=https://api.example.com/api/v1 -e SITE_TENANT=acme site
+          sleep 2
+          curl -fsS http://127.0.0.1:8088/config.js | grep -q 'tenant: "acme"'
+          curl -fsS -D - http://127.0.0.1:8088/lots/1 | grep -qi "^content-security-policy: default-src 'self'; script-src 'self'; connect-src 'self' https://id.example.com https://api.example.com"
       - uses: actions/upload-artifact@v7
         if: failure()
         with:
