@@ -88,6 +88,9 @@ test("a buyer watches a lot and finds it on the watchlist", async ({ browser, pa
   await page.goto(path);
   await page.getByRole("button", { name: "Watch this lot" }).click();
   await expect(page.getByRole("button", { name: "Watching" })).toHaveAttribute("aria-pressed", "true");
+  // The button shows the new state at once and is disabled until the server has it: wait for that before the
+  // watchlist is read, or it can be read first.
+  await expect(page.getByRole("button", { name: "Watching" })).toBeEnabled();
 
   await page.getByRole("link", { name: "Watchlist" }).click();
   await expect(page.getByRole("link", { name: title })).toBeVisible();
